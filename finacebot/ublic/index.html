@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Painel de Ofertas</title>
+</head>
+<body>
+  <h1>Ofertas</h1>
+  <ul id="offers"></ul>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const ul = document.getElementById('offers');
+    socket.on('offers_update', (rows) => {
+      ul.innerHTML = '';
+      rows.forEach(r=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${r.title}</strong> - R$ ${parseFloat(r.price).toFixed(2)} <a href="${r.url}" target="_blank">ver</a>`;
+        ul.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
